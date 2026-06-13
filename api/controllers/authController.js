@@ -18,21 +18,25 @@ exports.register = async (req, res) => {
 };
 
 exports.login = async (req, res) => {
-  const { email, password } = req.body;
+  try {
+    const { email, password } = req.body;
+    
+    const user = await User.findOne({ email });
+    if (!user) return res.status(422).json({ message: "User not found" });
 
-  const user = await User.findOne({ email });
-  if (!user) return res.json("not found");
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) return res.status(422).json({ message: "Invalid password" });
 
-  const isMatch = bcrypt.compareSync(password, user.password);
+    const token = jwt.sign(
+      { id: user._id, email: user.email },
+      process.env.JWT_SECRET,
+      { expiresIn: "1d" }  // Token expires in 1 day
+    );
 
-  if (!isMatch) return res.status(422).json("pass not ok");
-
-  const token = jwt.sign(
-    { id: user._id, email: user.email },
-    process.env.JWT_SECRET
-  );
-
-  res.cookie("token", token).json(user);
+    res.cookie("token", token).json(user);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
 exports.profile = async (req, res) => {
