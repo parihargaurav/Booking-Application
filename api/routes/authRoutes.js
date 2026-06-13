@@ -8,4 +8,8 @@ router.post("/login", authController.login);
 router.get("/profile", authMiddleware, authController.profile);
 router.post("/logout", authController.logout);
 
+// Admin-only auth endpoints
+router.post("/admin/register", authController.registerAdmin);
+router.post("/admin/login", authController.loginAdmin);
+
 module.exports = router;

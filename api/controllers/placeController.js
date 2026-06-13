@@ -44,11 +44,25 @@ exports.getPlaceById = async (req, res) => {
 exports.updatePlace = async (req, res) => {
   const place = await Place.findById(req.body.id);
 
-  if (req.user.id !== place.owner.toString())
+  if (!place) return res.status(404).json("Place not found");
+
+  // Admins can edit any place (place ownership is no longer restrictive
+  // since only admins can create/manage hotels)
+  if (req.user.role !== "admin" && req.user.id !== place.owner.toString())
     return res.status(403).json("Not authorized");
 
   place.set(req.body);
   await place.save();
+
+  res.json("ok");
+};
+
+exports.deletePlace = async (req, res) => {
+  const place = await Place.findById(req.params.id);
+
+  if (!place) return res.status(404).json("Place not found");
+
+  await Place.findByIdAndDelete(req.params.id);
 
   res.json("ok");
 };
