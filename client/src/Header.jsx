@@ -25,10 +25,14 @@ export default function Header() {
         <span className="font-bold text-xl">Ticket Easy</span>
       </Link>
       
-      <Link
-        to={user ? "/account" : "/login"}
-        className="flex items-center gap-2 border border-gray-300 rounded-full py-2 px-4 "
-      >
+      <div className="flex items-center gap-4">
+        <Link to={"/admin/login"} className="text-sm text-gray-500 hover:text-gray-700">
+          Admin
+        </Link>
+        <Link
+          to={user ? "/account" : "/login"}
+          className="flex items-center gap-2 border border-gray-300 rounded-full py-2 px-4 "
+        >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -58,7 +62,8 @@ export default function Header() {
           </svg>
         </div>
         {!!user && <div>{user.name}</div>}
-      </Link>
+        </Link>
+      </div>
     </header>
   );
 }

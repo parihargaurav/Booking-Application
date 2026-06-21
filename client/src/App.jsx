@@ -8,10 +8,15 @@ import axios from "axios";
 import { UserContextProvider } from "./UserContext.jsx";
 import ProfilePage from "./pages/ProfilePage.jsx";
 import PlacesPage from "./pages/PlacesPage.jsx";
-import PlacesFormPage from "./pages/PlacesFormPage.jsx";
 import PlacePage from "./pages/PlacePage.jsx";
 import BookingsPage from "./pages/BookingsPage.jsx";
 import BookingPage from "./pages/BookingPage.jsx";
+import AdminLoginPage from "./pages/AdminLoginPage.jsx";
+import AdminRegisterPage from "./pages/AdminRegisterPage.jsx";
+import AdminRoute from "./AdminRoute.jsx";
+import AdminPlacesPage from "./pages/AdminPlacesPage.jsx";
+import AdminPlaceFormPage from "./pages/AdminPlaceFormPage.jsx";
+import AdminBookingsPage from "./pages/AdminBookingsPage.jsx";
 
 // Set the default base URL for Axios
 axios.defaults.baseURL = "http://localhost:8000";
@@ -27,11 +32,22 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/account" element={<ProfilePage />} />
           <Route path="/account/places" element={<PlacesPage />} />
-          <Route path="/account/places/new" element={<PlacesFormPage />} />
-          <Route path="/account/places/:id" element={<PlacesFormPage />} />
           <Route path="/place/:id" element={<PlacePage />} />
           <Route path="/account/bookings" element={<BookingsPage />} />
           <Route path="/account/bookings/:id" element={<BookingPage />} />
+
+          {/* Admin auth (not gated) */}
+          <Route path="/admin/login" element={<AdminLoginPage />} />
+          <Route path="/admin/register" element={<AdminRegisterPage />} />
+
+          {/* Admin-only routes */}
+          <Route element={<AdminRoute />}>
+            <Route path="/admin" element={<AdminPlacesPage />} />
+            <Route path="/admin/places" element={<AdminPlacesPage />} />
+            <Route path="/admin/places/new" element={<AdminPlaceFormPage />} />
+            <Route path="/admin/places/:id" element={<AdminPlaceFormPage />} />
+            <Route path="/admin/bookings" element={<AdminBookingsPage />} />
+          </Route>
         </Route>
       </Routes>
     </UserContextProvider>
