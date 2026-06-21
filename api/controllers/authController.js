@@ -55,7 +55,15 @@ exports.login = async (req, res) => {
     process.env.JWT_SECRET
   );
 
-  res.cookie("token", token).json(user);
+  const cookieOptions = {
+    httpOnly: true,
+    sameSite: "none",
+    secure: process.env.NODE_ENV === "production",
+    path: "/",
+    maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
+  };
+
+  res.cookie("token", token, cookieOptions).json(user);
 };
 
 // Admin login is functionally the same as login, but checks the role
@@ -79,7 +87,15 @@ exports.loginAdmin = async (req, res) => {
     process.env.JWT_SECRET
   );
 
-  res.cookie("token", token).json(user);
+  const cookieOptions = {
+    httpOnly: true,
+    sameSite: "none",
+    secure: process.env.NODE_ENV === "production",
+    path: "/",
+    maxAge: 1000 * 60 * 60 * 24 * 7,
+  };
+
+  res.cookie("token", token, cookieOptions).json(user);
 };
 
 exports.profile = async (req, res) => {
@@ -88,5 +104,12 @@ exports.profile = async (req, res) => {
 };
 
 exports.logout = (req, res) => {
-  res.cookie("token", "").json(true);
+  const cookieOptions = {
+    httpOnly: true,
+    sameSite: "none",
+    secure: process.env.NODE_ENV === "production",
+    path: "/",
+    maxAge: 0,
+  };
+  res.cookie("token", "", cookieOptions).json(true);
 };

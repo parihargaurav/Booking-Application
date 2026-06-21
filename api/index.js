@@ -20,6 +20,7 @@ app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/places", require("./routes/placeRoutes"));
 app.use("/api/upload", require("./routes/uploadRoutes"));
 app.use("/api/bookings", require("./routes/bookingRoutes"));
+app.use("/api/chat", require("./routes/chatRoutes"));
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => console.log("Server running on", PORT));
