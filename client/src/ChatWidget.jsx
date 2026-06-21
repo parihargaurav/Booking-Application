@@ -7,7 +7,7 @@ export default function ChatWidget() {
     {
       role: "system",
       content:
-        "You are a friendly travel assistant for TicketEasy. Help users book tickets, answer questions about the app, and provide travel suggestions.",
+        "You are the TicketEasy hotel assistant. Help users find hotels, compare prices and facilities, and understand booking details using only the real listings on TicketEasy.",
     },
   ]);
   const [input, setInput] = useState("");
@@ -71,7 +71,7 @@ export default function ChatWidget() {
             ))}
             {messages.length === 1 && (
               <div className="rounded-2xl bg-gray-100 p-3 text-sm">
-                Hello! Need help with tickets or booking guidance? Ask me anything.
+                Hi! Ask me about any hotel on TicketEasy — prices, facilities, addresses, or guest limits.
               </div>
             )}
           </div>
