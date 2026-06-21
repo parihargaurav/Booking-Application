@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { differenceInCalendarDays } from "date-fns";
 import axios from "axios";
-import { Navigate } from "react-router-dom";
+import { Navigate, Link } from "react-router-dom";
 import { UserContext } from "./UserContext.jsx";
 
 export default function BookingWidget({ place }) {
@@ -13,6 +13,7 @@ export default function BookingWidget({ place }) {
   const [redirect, setRedirect] = useState("");
   const [errors, setErrors] = useState({});
   const { user } = useContext(UserContext);
+  const isAdmin = user?.role === "admin";
 
   useEffect(() => {
     if (user) {
@@ -31,6 +32,10 @@ export default function BookingWidget({ place }) {
   async function bookThisPlace() {
     if (!user) {
       return setRedirect("/login");
+    }
+    if (user.role === "admin") {
+      setErrors({ general: "Admins cannot book. Please signup or login as a regular user to book." });
+      return;
     }
     const newErrors = {};
 
@@ -173,10 +178,33 @@ export default function BookingWidget({ place }) {
         )}
       </div>
 
-      <button onClick={bookThisPlace} className="primary mt-4">
-        Book this place
-        {numberOfNights > 0 && <span> ₹{numberOfNights * place.price}</span>}
-      </button>
+      {errors.general && (
+        <p className="text-red-600 mt-2">{errors.general}</p>
+      )}
+
+      {isAdmin ? (
+        <div className="mt-4 text-center">
+          <p className="text-yellow-700">
+            You are logged in as an admin and cannot book. Please{' '}
+            <Link to="/register" className="underline">
+              Sign Up
+            </Link>{' '}
+            or{' '}
+            <Link to="/login" className="underline">
+              Sign In
+            </Link>{' '}
+            as a regular user to book.
+          </p>
+          <button disabled className="primary mt-4 opacity-50 cursor-not-allowed">
+            Book this place{numberOfNights > 0 && <span> ₹{numberOfNights * place.price}</span>}
+          </button>
+        </div>
+      ) : (
+        <button onClick={bookThisPlace} className="primary mt-4">
+          Book this place
+          {numberOfNights > 0 && <span> ₹{numberOfNights * place.price}</span>}
+        </button>
+      )}
     </div>
   );
 }

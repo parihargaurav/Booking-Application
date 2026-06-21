@@ -1,6 +1,14 @@
 const Booking = require("../models/Booking");
 
 exports.createBooking = async (req, res) => {
+  // Prevent admins from creating bookings. They must register/login as regular users.
+  if (req.user && req.user.role === "admin") {
+    return res.status(403).json({
+      message:
+        "Admins cannot create bookings. Please sign up or log in as a regular user to book places.",
+    });
+  }
+
   const booking = await Booking.create({
     user: req.user.id,
     ...req.body,
