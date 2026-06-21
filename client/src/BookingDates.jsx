@@ -1,35 +1,36 @@
 import { differenceInCalendarDays, format } from "date-fns";
-
-export default function BookingDates({ booking, className }) {
+export default function BookingDates({ booking, className = "" }) {
   return (
-    <div className={"flex gap-1 " + className}>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        strokeWidth={1.5}
-        stroke="currentColor"
-        className="w-6 h-6"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"
-        />
-      </svg>
-      {differenceInCalendarDays(
-        new Date(booking.checkOut),
-        new Date(booking.checkIn)
-      )}{" "}
-      nights:
-      <div className="flex gap-1 items-center ml-2">
+    <div className={"flex flex-wrap items-center gap-2 text-sm " + className}>
+      <span className="badge">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
           strokeWidth={1.5}
           stroke="currentColor"
-          className="w-6 h-6"
+          className="w-4 h-4"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"
+          />
+        </svg>
+        {differenceInCalendarDays(
+          new Date(booking.checkOut),
+          new Date(booking.checkIn)
+        )}{" "}
+        nights
+      </span>
+      <div className="flex items-center gap-1.5 text-gray-700">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="w-5 h-5 text-secondary"
         >
           <path
             strokeLinecap="round"
@@ -39,15 +40,15 @@ export default function BookingDates({ booking, className }) {
         </svg>
         {format(new Date(booking.checkIn), "yyyy-MM-dd")}
       </div>
-      &rarr;
-      <div className="flex gap-1 items-center">
+      <span className="text-gray-400">&rarr;</span>
+      <div className="flex items-center gap-1.5 text-gray-700">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
           strokeWidth={1.5}
           stroke="currentColor"
-          className="w-6 h-6"
+          className="w-5 h-5 text-secondary"
         >
           <path
             strokeLinecap="round"

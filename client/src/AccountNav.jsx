@@ -7,16 +7,10 @@ export default function AccountNav() {
     subpage = "profile";
   }
   function linkClasses(type = null) {
-    let classes = "inline-flex gap-1 py-2 px-6 rounded-full";
-    if (type === subpage) {
-      classes += " bg-primary text-white";
-    } else {
-      classes += " bg-gray-200";
-    }
-    return classes;
+    return "tab-link " + (type === subpage ? "tab-link-active" : "");
   }
   return (
-    <nav className="w-full flex justify-center mt-8 gap-2 mb-8">
+    <nav className="w-full flex justify-center gap-6 mb-8 border-b border-gray-200">
       <Link className={linkClasses("profile")} to={"/account"}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -24,7 +18,7 @@ export default function AccountNav() {
           viewBox="0 0 24 24"
           strokeWidth={1.5}
           stroke="currentColor"
-          className="w-6 h-6"
+          className="w-5 h-5"
         >
           <path
             strokeLinecap="round"
@@ -41,7 +35,7 @@ export default function AccountNav() {
           viewBox="0 0 24 24"
           strokeWidth={1.5}
           stroke="currentColor"
-          className="w-6 h-6"
+          className="w-5 h-5"
         >
           <path
             strokeLinecap="round"
@@ -58,7 +52,7 @@ export default function AccountNav() {
           viewBox="0 0 24 24"
           strokeWidth={1.5}
           stroke="currentColor"
-          className="w-6 h-6"
+          className="w-5 h-5"
         >
           <path
             strokeLinecap="round"

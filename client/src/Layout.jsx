@@ -3,9 +3,11 @@ import { Outlet } from "react-router-dom";
 
 export default function Layout() {
   return (
-    <div className="py-4 px-8 flex flex-col min-h-screen max-w-4xl mx-auto">
+    <div className="min-h-screen flex flex-col bg-surface">
       <Header />
-      <Outlet />
+      <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col">
+        <Outlet />
+      </main>
     </div>
   );
 }

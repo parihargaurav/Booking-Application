@@ -38,8 +38,8 @@ export default function AdminBookingsPage() {
   return (
     <div>
       <AdminNav />
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4">
-        <h1 className="text-2xl">All Bookings ({filtered.length})</h1>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
+        <h1 className="text-xl font-bold text-primary">All Bookings ({filtered.length})</h1>
         <input
           type="text"
           placeholder="Search by hotel, guest, email or phone"
@@ -49,45 +49,48 @@ export default function AdminBookingsPage() {
         />
       </div>
 
-      {loading && <p className="text-center text-gray-500">Loading bookings...</p>}
+      {loading && <p className="text-center text-gray-500 mt-8">Loading bookings...</p>}
 
       {!loading && filtered.length === 0 && (
-        <p className="text-center text-gray-500">No bookings found.</p>
+        <p className="text-center text-gray-500 mt-8">No bookings found.</p>
       )}
 
       {!loading && filtered.length > 0 && (
-        <div className="overflow-x-auto">
+        <div className="card overflow-x-auto">
           <table className="w-full text-sm border-collapse">
             <thead>
-              <tr className="bg-gray-100 text-left">
-                <th className="p-3 rounded-tl-xl">Hotel</th>
-                <th className="p-3">Guest Name</th>
-                <th className="p-3">Guest Email</th>
-                <th className="p-3">Phone</th>
-                <th className="p-3">Check-in</th>
-                <th className="p-3">Check-out</th>
-                <th className="p-3 rounded-tr-xl text-right">Price</th>
+              <tr className="bg-primary text-white text-left">
+                <th className="p-3 font-semibold rounded-tl-card">Hotel</th>
+                <th className="p-3 font-semibold">Guest Name</th>
+                <th className="p-3 font-semibold">Guest Email</th>
+                <th className="p-3 font-semibold">Phone</th>
+                <th className="p-3 font-semibold">Check-in</th>
+                <th className="p-3 font-semibold">Check-out</th>
+                <th className="p-3 font-semibold rounded-tr-card text-right">Price</th>
               </tr>
             </thead>
             <tbody>
-              {filtered.map((booking) => (
-                <tr key={booking._id} className="border-b border-gray-200">
-                  <td className="p-3">{booking.place?.title || "Deleted hotel"}</td>
+              {filtered.map((booking, idx) => (
+                <tr
+                  key={booking._id}
+                  className={"border-b border-gray-100 " + (idx % 2 === 1 ? "bg-gray-50" : "")}
+                >
+                  <td className="p-3 font-medium text-gray-900">{booking.place?.title || "Deleted hotel"}</td>
                   <td className="p-3">{booking.name}</td>
-                  <td className="p-3">{booking.user?.email || "-"}</td>
-                  <td className="p-3">{booking.phone}</td>
-                  <td className="p-3">{formatDate(booking.checkIn)}</td>
-                  <td className="p-3">{formatDate(booking.checkOut)}</td>
-                  <td className="p-3 text-right">${booking.price}</td>
+                  <td className="p-3 text-gray-600">{booking.user?.email || "-"}</td>
+                  <td className="p-3 text-gray-600">{booking.phone}</td>
+                  <td className="p-3 text-gray-600">{formatDate(booking.checkIn)}</td>
+                  <td className="p-3 text-gray-600">{formatDate(booking.checkOut)}</td>
+                  <td className="p-3 text-right font-semibold text-primary">₹{booking.price}</td>
                 </tr>
               ))}
             </tbody>
             <tfoot>
-              <tr className="bg-gray-50 font-semibold">
+              <tr className="bg-gray-100 font-semibold">
                 <td className="p-3" colSpan={6}>
                   Total
                 </td>
-                <td className="p-3 text-right">${totalRevenue}</td>
+                <td className="p-3 text-right text-primary">₹{totalRevenue}</td>
               </tr>
             </tfoot>
           </table>

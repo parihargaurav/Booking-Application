@@ -28,16 +28,17 @@ export default function AdminPlacesPage() {
   return (
     <div>
       <AdminNav />
-      <div className="text-center">
+      <div className="flex items-center justify-between mb-4">
+        <h1 className="text-xl font-bold text-primary">Hotels ({places.length})</h1>
         <Link
-          className="inline-flex gap-1 bg-primary text-white py-2 px-6 rounded-full"
+          className="!w-auto inline-flex items-center gap-1.5 bg-secondary hover:bg-secondary-dark text-white text-sm font-semibold py-2 px-4 rounded-md shadow-sm transition-colors"
           to={"/admin/places/new"}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
             fill="currentColor"
-            className="w-6 h-6"
+            className="w-5 h-5"
           >
             <path
               fillRule="evenodd"
@@ -48,32 +49,32 @@ export default function AdminPlacesPage() {
           Add new hotel
         </Link>
       </div>
-      <div className="mt-4 flex flex-col gap-4">
+      <div className="flex flex-col gap-3">
         {places.length === 0 && (
-          <p className="text-center text-gray-500">No hotels added yet.</p>
+          <p className="text-center text-gray-500 mt-8">No hotels added yet.</p>
         )}
         {places.length > 0 &&
           places.map((place) => (
             <div
               key={place._id}
-              className="flex cursor-pointer gap-4 bg-gray-100 p-4 rounded-2xl items-center"
+              className="card card-hover flex items-center gap-4 p-3"
             >
               <Link
                 to={"/admin/places/" + place._id}
-                className="flex w-32 h-32 bg-gray-300 grow shrink-0"
+                className="flex w-28 h-28 bg-gray-200 grow shrink-0 rounded-md overflow-hidden"
               >
-                <PlaceImg place={place} />
+                <PlaceImg place={place} className="object-cover w-full h-full" />
               </Link>
               <Link to={"/admin/places/" + place._id} className="grow">
-                <h2 className="text-xl">{place.title}</h2>
-                <p className="text-sm mt-2">{place.address}</p>
+                <h2 className="text-lg font-semibold text-primary">{place.title}</h2>
+                <p className="text-sm mt-1 text-gray-600">{place.address}</p>
                 <p className="text-sm mt-1 text-gray-500">
-                  ${place.price} / night &middot; up to {place.maxGuests} guests
+                  <span className="font-semibold text-gray-700">₹{place.price}</span> / night &middot; up to {place.maxGuests} guests
                 </p>
               </Link>
               <button
                 onClick={(ev) => deletePlace(place._id, ev)}
-                className="bg-red-500 text-white py-2 px-4 rounded-full shrink-0"
+                className="!w-auto bg-red-50 text-red-600 hover:bg-red-100 border border-red-200 font-semibold py-2 px-4 rounded-md shrink-0 transition-colors"
               >
                 Delete
               </button>

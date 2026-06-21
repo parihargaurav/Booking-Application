@@ -2,19 +2,73 @@
 @tailwind components;
 @tailwind utilities;
 
-input[type="text"],input[type="password"],
-input[type="email"],input[type="number"],
-input[type="tel"],
-textarea{
-    @apply w-full border my-1 py-2 px-3 rounded-2xl;
+@layer base {
+  body {
+    @apply bg-surface text-gray-800;
+  }
 }
-textarea{
+
+@layer components {
+  /* Form fields - booking.com uses crisp, low-radius inputs with a blue focus ring */
+  input[type="text"],
+  input[type="password"],
+  input[type="email"],
+  input[type="number"],
+  input[type="tel"],
+  input[type="date"],
+  select,
+  textarea {
+    @apply w-full border border-gray-300 my-1.5 py-2.5 px-3 rounded-md text-sm text-gray-800
+           placeholder:text-gray-400
+           focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:border-secondary
+           transition;
+  }
+  textarea {
     height: 140px;
-}
-button{
-    @apply bg-gray-300;
-}
-button.primary{
-    background-color: #F5385D;
-    @apply bg-primary p-2 w-full text-white rounded-2xl;
+  }
+
+  /* Buttons */
+  button {
+    @apply bg-gray-200 text-gray-700 rounded-md transition;
+  }
+  button.primary {
+    @apply bg-secondary hover:bg-secondary-dark text-white font-semibold
+           py-2.5 px-4 w-full rounded-md shadow-sm
+           disabled:opacity-50 disabled:cursor-not-allowed transition-colors;
+  }
+  button.primary-outline {
+    @apply bg-white text-secondary border border-secondary hover:bg-secondary/5
+           font-semibold py-2.5 px-4 w-full rounded-md transition-colors;
+  }
+
+  /* Generic surfaces */
+  .card {
+    @apply bg-white rounded-card shadow-card border border-gray-100;
+  }
+  .card-hover {
+    @apply hover:shadow-card-hover hover:-translate-y-0.5 transition-all duration-200;
+  }
+
+  /* The "dialog" style card used by Login / Register / Admin auth screens */
+  .dialog-card {
+    @apply bg-white rounded-xl shadow-dialog border border-gray-100 w-full max-w-md p-8;
+  }
+
+  .badge {
+    @apply inline-flex items-center gap-1 bg-primary text-white text-xs font-bold px-2 py-1 rounded;
+  }
+  .badge-accent {
+    @apply inline-flex items-center gap-1 bg-accent text-primary text-xs font-bold px-2 py-1 rounded;
+  }
+
+  .link {
+    @apply text-secondary hover:text-secondary-dark hover:underline font-medium cursor-pointer;
+  }
+
+  .tab-link {
+    @apply inline-flex items-center gap-1.5 py-3 px-1 border-b-2 border-transparent text-sm font-semibold text-gray-500 hover:text-primary transition-colors;
+  }
+  .tab-link-active {
+    @apply text-primary border-primary;
+  }
 }

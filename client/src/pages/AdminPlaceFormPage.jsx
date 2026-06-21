@@ -39,10 +39,10 @@ export default function AdminPlaceFormPage() {
   }, [id]);
 
   function inputHeader(text) {
-    return <h2 className="text-2xl mt-4">{text}</h2>;
+    return <h2 className="text-lg font-semibold text-primary mt-6 first:mt-0">{text}</h2>;
   }
   function inputDescription(text) {
-    return <p className="text-gray-500 text-sm">{text}</p>;
+    return <p className="text-gray-500 text-sm mb-2">{text}</p>;
   }
   function preInput(header, description) {
     return (
@@ -88,7 +88,10 @@ export default function AdminPlaceFormPage() {
   return (
     <div>
       <AdminNav />
-      <form onSubmit={savePlace}>
+      <h1 className="text-xl font-bold text-primary mb-4">
+        {id ? "Edit hotel" : "Add new hotel"}
+      </h1>
+      <form onSubmit={savePlace} className="card p-6">
         {preInput(
           "Title",
           "Title for this hotel. Should be short and catchy as in an advertisement"
@@ -117,12 +120,12 @@ export default function AdminPlaceFormPage() {
         {preInput("Extra info", "house rules, etc")}
         <textarea value={extraInfo} onChange={(ev) => setExtraInfo(ev.target.value)} />
         {preInput(
-          "Check in&out times",
+          "Check in & out times",
           "add check in and out times, remember to have some time window for cleaning the room between guests"
         )}
-        <div className="grid gap-2 grid-cols-2 md:grid-cols-4">
+        <div className="grid gap-3 grid-cols-2 md:grid-cols-4">
           <div>
-            <h3 className="mt-2 -mb-1">Check in time</h3>
+            <label className="block text-xs font-semibold text-gray-600 mb-1">Check in time</label>
             <input
               type="text"
               value={checkIn}
@@ -131,7 +134,7 @@ export default function AdminPlaceFormPage() {
             />
           </div>
           <div>
-            <h3 className="mt-2 -mb-1">Check out time</h3>
+            <label className="block text-xs font-semibold text-gray-600 mb-1">Check out time</label>
             <input
               type="text"
               value={checkOut}
@@ -140,7 +143,7 @@ export default function AdminPlaceFormPage() {
             />
           </div>
           <div>
-            <h3 className="mt-2 -mb-1">Max number of guests</h3>
+            <label className="block text-xs font-semibold text-gray-600 mb-1">Max number of guests</label>
             <input
               type="number"
               value={maxGuests}
@@ -148,11 +151,11 @@ export default function AdminPlaceFormPage() {
             />
           </div>
           <div>
-            <h3 className="mt-2 -mb-1">Price per night</h3>
+            <label className="block text-xs font-semibold text-gray-600 mb-1">Price per night</label>
             <input type="number" value={price} onChange={(ev) => setPrice(ev.target.value)} />
           </div>
         </div>
-        <button className="primary my-4">Save</button>
+        <button className="primary mt-6">Save</button>
       </form>
     </div>
   );
