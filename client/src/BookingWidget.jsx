@@ -4,6 +4,8 @@ import axios from "axios";
 import { Navigate, Link } from "react-router-dom";
 import { UserContext } from "./UserContext.jsx";
 
+const todayString = new Date().toISOString().slice(0, 10);
+
 export default function BookingWidget({ place }) {
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
@@ -39,8 +41,18 @@ export default function BookingWidget({ place }) {
     }
     const newErrors = {};
 
-    if (!checkIn) newErrors.checkIn = "Check-in is required";
-    if (!checkOut) newErrors.checkOut = "Check-out is required";
+    if (!checkIn) {
+      newErrors.checkIn = "Check-in is required";
+    } else if (checkIn < todayString) {
+      newErrors.checkIn = "Check-in cannot be in the past";
+    }
+
+    if (!checkOut) {
+      newErrors.checkOut = "Check-out is required";
+    } else if (checkOut < (checkIn || todayString)) {
+      newErrors.checkOut = "Check-out cannot be before check-in";
+    }
+
     if (!numberOfGuests) newErrors.guests = "Guests count required";
     if (numberOfNights > 0) {
       if (!name) newErrors.name = "Name is required";
@@ -86,9 +98,13 @@ export default function BookingWidget({ place }) {
             <input
               type="date"
               value={checkIn}
+              min={todayString}
               onChange={(ev) => {
                 setCheckIn(ev.target.value);
                 setErrors((prev) => ({ ...prev, checkIn: "" })); // remove error
+                if (checkOut && ev.target.value > checkOut) {
+                  setCheckOut("");
+                }
               }}
             />
 
@@ -106,6 +122,7 @@ export default function BookingWidget({ place }) {
             <input
               type="date"
               value={checkOut}
+              min={checkIn || todayString}
               onChange={(ev) => {
                 setCheckOut(ev.target.value);
                 setErrors((prev) => ({ ...prev, checkOut: "" })); // remove error
